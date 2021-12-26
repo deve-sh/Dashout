@@ -1,7 +1,7 @@
 import connection from "./index";
 
 const query = (queryString, params = undefined) =>
-	new Promise((resolve) => {
+	new Promise<{ error?: any; results?: any[] }>((resolve) => {
 		const callback = (error, results, fields) => {
 			const returnValue = { error, results, fields };
 			resolve(returnValue);
