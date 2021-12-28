@@ -1,7 +1,14 @@
 // Route to hit when a user logs in to the app using Firebase Authentication, in order to store their details in the database.
 import type { NextApiRequest, NextApiResponse } from "next";
+
 import query from "../../db/query";
 import User from "../../types/user";
+
+import {
+	CREATE_USER,
+	FETCH_USER_BY_UID,
+	UPDATE_USER,
+} from "../../queries/user";
 
 export default async function setupUser(
 	req: NextApiRequest,
@@ -27,7 +34,7 @@ export default async function setupUser(
 			disabled: userObject.disabled,
 		});
 		const { error: userFetchingError, results } = await query(
-			"SELECT * FROM users WHERE uid = ?",
+			FETCH_USER_BY_UID,
 			[user.uid]
 		);
 		if (userFetchingError) throw userFetchingError;
@@ -36,54 +43,29 @@ export default async function setupUser(
 
 		if (results.length) {
 			// User already exists
-			await query(
-				`UPDATE users SET
-                    uid = ?,
-                    email = ?,
-                    email_verified = ?,
-                    phone_number = ?,
-                    photo_url = ?,
-                    disabled = ?,
-                    display_name = ?,
-                    provider_info = ?
-                WHERE uid = ?;
-            `,
-				[
-					userForDatabase.uid,
-					userForDatabase.email,
-					userForDatabase.email_verified || false,
-					userForDatabase.phone_number || null,
-					userForDatabase.photo_url || "",
-					userForDatabase.disabled || false,
-					userForDatabase.display_name,
-					userForDatabase.provider_info || "{}",
-					userForDatabase.uid,
-				]
-			);
+			await query(UPDATE_USER, [
+				userForDatabase.uid,
+				userForDatabase.email,
+				userForDatabase.email_verified || false,
+				userForDatabase.phone_number || null,
+				userForDatabase.photo_url || "",
+				userForDatabase.disabled || false,
+				userForDatabase.display_name,
+				userForDatabase.provider_info || "{}",
+				userForDatabase.uid,
+			]);
 		} else {
 			// Add user to database.
-			await query(
-				`INSERT into users(
-                uid, 
-                email, 
-                email_verified, 
-                display_name, 
-                phone_number, 
-                provider_info,
-                photo_url,
-                disabled)
-            VALUES (?,?,?,?,?,?,?,?);`,
-				[
-					userForDatabase.uid,
-					userForDatabase.email,
-					userForDatabase.email_verified || false,
-					userForDatabase.display_name,
-					userForDatabase.phone_number || null,
-					userForDatabase.provider_info || "{}",
-					userForDatabase.photo_url || "",
-					userForDatabase.disabled || false,
-				]
-			);
+			await query(CREATE_USER, [
+				userForDatabase.uid,
+				userForDatabase.email,
+				userForDatabase.email_verified || false,
+				userForDatabase.display_name,
+				userForDatabase.phone_number || null,
+				userForDatabase.provider_info || "{}",
+				userForDatabase.photo_url || "",
+				userForDatabase.disabled || false,
+			]);
 		}
 
 		return res
