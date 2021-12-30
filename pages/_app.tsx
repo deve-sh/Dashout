@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { ChakraProvider } from "@chakra-ui/react";
+
 import auth from "../firebase/authentication";
 import request from "../helpers/request";
 import User from "../types/user";
@@ -38,7 +40,11 @@ const AppWrapper = ({ Component, pageProps }) => {
 		});
 	}, []);
 
-	return <Component {...pageProps} />;
+	return (
+		<ChakraProvider>
+			<Component {...pageProps} />
+		</ChakraProvider>
+	);
 };
 
 export default AppWrapper;
