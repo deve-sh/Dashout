@@ -1,6 +1,8 @@
 // Route to hit when a user logs in to the app using Firebase Authentication, in order to store their details in the database.
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import verifyIDToken from "../../helpers/verifyIDToken";
+
 import query from "../../db/query";
 import User from "../../types/user";
 
@@ -20,8 +22,15 @@ export default async function setupUser(
 			message,
 		});
 	try {
+		const { authentication } = req.headers;
+		if (!authentication) return error(403, "Unauthozied");
+
+		const decodedToken = await verifyIDToken(authentication);
+		if (!decodedToken || !decodedToken.uid) return error(403, "Unauthorized");
+
 		const { user } = req.body as { user: User };
-		if (!user) return error(400, "Incomplete information.");
+		if (!user || user.uid !== decodedToken.uid)
+			return error(400, "Incomplete information.");
 
 		const convertFirebaseUserToDatabaseEntry = (userObject: User) => ({
 			uid: userObject.uid,
