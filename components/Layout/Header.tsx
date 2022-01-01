@@ -37,11 +37,11 @@ const Container = styled(Stack)`
 `;
 
 const Left = styled.div`
-	width: 20%;
+	width: 30%;
 `;
 
 const Right = styled(Left)`
-	width: 80%;
+	width: 70%;
 	text-align: right;
 `;
 
@@ -63,7 +63,7 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 				<Left>
 					<Link href="/">
 						<a>
-							<Logo src="/logo.png" alt="Dashout Logo" />
+							<Logo src="/logo.png" alt="Dashout" />
 						</a>
 					</Link>
 				</Left>
@@ -72,7 +72,7 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 						<ButtonGroup spacing="3">
 							<IconButton
 								aria-label="Toggle Dark Mode"
-								colorScheme={isDarkModeActive ? "yellow" : "teal"}
+								colorScheme={isDarkModeActive ? "yellow" : "blue"}
 								variant="ghost"
 								onClick={toggleDarkModeForApp}
 							>
@@ -80,7 +80,7 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 							</IconButton>
 							{!stateUser ? (
 								<Button
-									colorScheme="teal"
+									colorScheme="blue"
 									variant="outline"
 									leftIcon={<LoginIcon size="1.375rem" />}
 									onClick={openLoginModal}
@@ -93,7 +93,7 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 										<a>
 											<IconButton
 												aria-label="My Tab"
-												colorScheme="teal"
+												colorScheme="blue"
 												variant="ghost"
 											>
 												<FaWallet />
@@ -104,7 +104,7 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 										<a>
 											<IconButton
 												aria-label="Profile"
-												colorScheme="teal"
+												colorScheme="blue"
 												variant="ghost"
 											>
 												<FaUserCircle />
@@ -112,7 +112,7 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 										</a>
 									</Link>
 									<Button
-										colorScheme="teal"
+										colorScheme="blue"
 										variant="outline"
 										className="logoutbutton"
 										leftIcon={<LogoutIcon size="1.375rem" />}

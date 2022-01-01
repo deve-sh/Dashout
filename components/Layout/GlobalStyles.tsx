@@ -13,8 +13,8 @@ const GlobalStyles = ({ darkMode = false }) => (
 					? "#efefef"
 					: "var(--chakra-colors-gray-600)"};
 
-				--primary: #009688;
-				--secondary: #00695f;
+				--primary: #0987a0;
+				--secondary: #185966;
 
 				--line-height: 1.61;
 
@@ -73,15 +73,6 @@ const GlobalStyles = ({ darkMode = false }) => (
 					margin: 0;
 					margin-inline-end: 0;
 				}
-			}
-
-			.react-tel-input .special-label {
-				display: none;
-			}
-
-			.react-tel-input #phonenumber {
-				background: var(--white);
-				color: var(--black);
 			}
 		`}
 	/>
