@@ -2,12 +2,12 @@
 	The main firebase configuration file.
 */
 
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 
-const config = JSON.parse(process.env.FIREBASE_CONFIG);
+const config = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG);
 
-const firebasePrimaryApp = firebase["apps"].length
-	? firebase["apps"][0]
-	: firebase["initializeApp"](config);
+const firebasePrimaryApp = !firebase.apps.length
+	? firebase.initializeApp(config)
+	: firebase.apps[0];
 
 export default firebasePrimaryApp;

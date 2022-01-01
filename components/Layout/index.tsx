@@ -25,8 +25,6 @@ const AppLayout = ({
 	// User Authentication
 	const stateUser = useStore((store) => store.user);
 
-	console.log(isDarkModeActive, stateUser);
-
 	return (
 		<ChakraProvider>
 			<GlobalStyles darkMode={isDarkModeActive} />
