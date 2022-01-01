@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { ChakraProvider } from "@chakra-ui/react";
+
+import { useDisclosure } from "@chakra-ui/react";
 
 import useStore from "../store/useStore";
 
@@ -7,8 +8,15 @@ import auth from "../firebase/authentication";
 import request from "../helpers/request";
 import User from "../types/user";
 
+import AppLayout from "../components/Layout";
+
 const AppWrapper = ({ Component, pageProps }) => {
 	const setUserInState = useStore((store) => store.setUser);
+	const {
+		isOpen: showLoginModal,
+		onOpen: openLoginModal,
+		onClose: closeLoginModal,
+	} = useDisclosure();
 
 	useEffect(() => {
 		auth.onAuthStateChanged(async (user) => {
@@ -46,9 +54,13 @@ const AppWrapper = ({ Component, pageProps }) => {
 	}, []);
 
 	return (
-		<ChakraProvider>
+		<AppLayout
+			openLoginModal={openLoginModal}
+			closeLoginModal={closeLoginModal}
+			showLoginModal={showLoginModal}
+		>
 			<Component {...pageProps} />
-		</ChakraProvider>
+		</AppLayout>
 	);
 };
 
