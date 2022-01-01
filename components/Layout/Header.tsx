@@ -3,7 +3,6 @@ import {
 	Box,
 	Stack,
 	Image,
-	Button,
 	IconButton,
 	ButtonGroup,
 	HStack,
@@ -15,6 +14,8 @@ import {
 	MdLogout as LogoutIcon,
 } from "react-icons/md";
 import { FaMoon, FaSun, FaUserCircle, FaWallet } from "react-icons/fa";
+
+import Button from "../Button";
 
 import useStore from "../../store/useStore";
 
@@ -59,7 +60,7 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 
 	return (
 		<AppHeader w="100%" id="app-header" className="noprint">
-			<Container direction="row">
+			<Container direction="row" alignItems="center">
 				<Left>
 					<Link href="/">
 						<a>
@@ -84,6 +85,9 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 									variant="outline"
 									leftIcon={<LoginIcon size="1.375rem" />}
 									onClick={openLoginModal}
+									$variant="hollow"
+									$noMinWidth
+									$paddingMultiplier="1.25"
 								>
 									Login
 								</Button>
@@ -117,6 +121,9 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 										className="logoutbutton"
 										leftIcon={<LogoutIcon size="1.375rem" />}
 										onClick={logoutUser}
+										$variant="hollow"
+										$noMinWidth
+										$paddingMultiplier="1.25"
 									>
 										<span
 											className="hideonsmall"
