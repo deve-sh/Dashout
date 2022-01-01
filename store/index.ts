@@ -1,13 +1,7 @@
 import create from "zustand/vanilla";
 import { persist } from "zustand/middleware";
 
-interface State {
-	user: any;
-	setUser: (user: any) => any;
-	isDarkModeActive: boolean;
-	isLoading: boolean;
-	loaderType: string;
-}
+import State from "../types/storeState";
 
 const store = create(
 	persist(

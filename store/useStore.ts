@@ -3,6 +3,8 @@
 import create from "zustand";
 import store from "./index";
 
-const useStore = create(store);
+import State from "../types/storeState";
 
-export default useStore;
+const useStore = create<State>(store);
+
+export default useStore as (selector: (state: State) => any) => any;

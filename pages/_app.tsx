@@ -1,11 +1,15 @@
 import { useEffect } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 
+import useStore from "../store/useStore";
+
 import auth from "../firebase/authentication";
 import request from "../helpers/request";
 import User from "../types/user";
 
 const AppWrapper = ({ Component, pageProps }) => {
+	const setUserInState = useStore((store) => store.setUser);
+
 	useEffect(() => {
 		auth.onAuthStateChanged(async (user) => {
 			if (user) {
@@ -36,6 +40,7 @@ const AppWrapper = ({ Component, pageProps }) => {
 						},
 					},
 				});
+				setUserInState(userToSave);
 			}
 		});
 	}, []);
