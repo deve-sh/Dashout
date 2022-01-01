@@ -13,11 +13,27 @@ const Button = styled(ChakraButton)`
 	font-weight: 500;
 	letter-spacing: calc(0.075 * var(--standard-spacing));
 
-	&:hover,
+	${({ $variant }) =>
+		$variant === "hollow" &&
+		"border: calc(0.075 * var(--standard-spacing)) solid var(--primary);"}
+	${({ $variant }) => $variant === "hollow" && "background: var(--white);"}
+    ${({ $variant }) => $variant === "hollow" && "color: var(--primary);"}
+    ${({ $variant }) =>
+		$variant === "hollow"
+			? `
+    &:hover,
+	&:focus,
+	&:active {
+		background: var(--white);
+        color: var(--primary);
+        border: calc(0.075 * var(--standard-spacing)) solid var(--primary);
+	}`
+			: `
+    &:hover,
 	&:focus,
 	&:active {
 		background: var(--primary);
-	}
+	}`}
 `;
 
 export default Button;
