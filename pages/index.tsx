@@ -1,8 +1,8 @@
 import Head from "next/head";
-import { Box, Image, Stack, Text, Heading } from "@chakra-ui/react";
+import { Box, Image, Stack, Text, Heading, HStack } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 
-import { MdOutlineArrowForward } from "react-icons/md";
+import { MdOutlineArrowForward, MdOutlineShowChart } from "react-icons/md";
 
 import Button from "../components/Button";
 
@@ -21,6 +21,10 @@ const HomePageHero = styled(Stack)`
 		padding: var(--standard-spacing);
 		max-width: 500px;
 		margin: 0 auto;
+
+		@media (max-width: 768px) {
+			padding: calc(4.5 * var(--standard-spacing)) var(--standard-spacing);
+		}
 	}
 
 	.heroimage {
@@ -44,7 +48,7 @@ const HomePageHero = styled(Stack)`
 	}
 `;
 
-const HomePage = () => (
+const HomePage = ({ openLoginModal }) => (
 	<>
 		<Head>
 			<title>Dashout - Buy Now Pay Later</title>
@@ -61,12 +65,21 @@ const HomePage = () => (
 					<br />
 					It truly is the next gen of shopping experience.
 				</Text>
-				<Button
-					marginTop="25px"
-					rightIcon={<MdOutlineArrowForward size="1.25rem" />}
-				>
-					Check It Out
-				</Button>
+				<HStack spacing="15px" marginTop="25px">
+					<Button
+						rightIcon={<MdOutlineArrowForward size="1.25rem" />}
+						onClick={openLoginModal}
+					>
+						Check It Out
+					</Button>
+					<Button
+						$variant="hollow"
+						rightIcon={<MdOutlineShowChart size="1.25rem" />}
+						onClick={openLoginModal}
+					>
+						Become A Marchant
+					</Button>
+				</HStack>
 			</Box>
 			<Box className="heroimage-container">
 				<Image
