@@ -74,7 +74,7 @@ const HomePage = ({ openLoginModal }) => (
 					</Button>
 					<Button
 						$variant="hollow"
-						rightIcon={<MdOutlineShowChart size="1.25rem" />}
+						leftIcon={<MdOutlineShowChart size="1.25rem" />}
 						onClick={openLoginModal}
 					>
 						Become A Marchant
