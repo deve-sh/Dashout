@@ -1,4 +1,7 @@
-import { createStandaloneToast } from "@chakra-ui/react";
+import {
+	createStandaloneToast,
+	ToastPositionWithLogical,
+} from "@chakra-ui/react";
 
 const toastOps = (
 	title: string,
@@ -10,6 +13,7 @@ const toastOps = (
 	status: status || "info",
 	duration: 4500,
 	isClosable: true,
+	position: "bottom-left" as ToastPositionWithLogical,
 });
 
 const toasts = {
