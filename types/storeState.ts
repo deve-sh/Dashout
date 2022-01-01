@@ -1,5 +1,7 @@
+import User from "./user";
+
 export default interface State {
-	user: any;
+	user: null | undefined | User;
 	setUser: (user: any) => any;
 	isDarkModeActive: boolean;
 	isLoading: boolean;
