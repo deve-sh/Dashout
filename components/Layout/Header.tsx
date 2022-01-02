@@ -28,8 +28,7 @@ const AppHeader = styled(Box)`
 `;
 
 const Logo = styled(Image)`
-	width: 42px;
-	height: 42px;
+	max-height: 32px;
 `;
 
 const Container = styled(Stack)`
