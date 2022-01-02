@@ -77,9 +77,10 @@ export default async function setupUser(
 			]);
 		}
 
-		return res
-			.status(200)
-			.json({ message: "Setup User In database successfully." });
+		return res.status(200).json({
+			message: "Setup User In database successfully.",
+			user: (await query(FETCH_USER_BY_UID, [user.uid])).results[0],
+		});
 	} catch (err) {
 		return error(500, err.message);
 	}
