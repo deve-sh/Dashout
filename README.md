@@ -1,6 +1,8 @@
 # Dashout
 
-<p align="center">![Dashout Logo](./public/logo-256.png)</p>
+<p align="center">
+    <img src="./public/logo-256.png" />
+</p>
 
 A simple project that acts as a template for a buy now pay later service.
 
