@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-
 import { useDisclosure } from "@chakra-ui/react";
+import Cookie from "js-cookie";
 
 import useStore from "../store/useStore";
 
@@ -19,8 +19,9 @@ const AppWrapper = ({ Component, pageProps }) => {
 	} = useDisclosure();
 
 	const logoutUser = () => {
+		Cookie.remove("accessToken");
 		setUserInState(null);
-		return auth.signOut();
+		if (auth.currentUser) auth.signOut();
 	};
 
 	useEffect(() => {
@@ -43,20 +44,22 @@ const AppWrapper = ({ Component, pageProps }) => {
 					uid,
 					providerInfo: JSON.parse(JSON.stringify(providerData)),
 				};
+				const accessToken = await auth.currentUser.getIdToken(false);
+				Cookie.set("accessToken", accessToken, { expires: 365 }); // Don't remove unless Firebase automatically signs the user out.
 				const { user: userFromDatabase } = await request({
 					endpoint: "/api/setupUser",
 					data: { user: userToSave },
 					requestType: "post",
 					options: {
 						headers: {
-							authentication: await auth.currentUser.getIdToken(false),
+							authentication: accessToken,
 						},
 					},
 				});
 				if (userToSave && userFromDatabase)
 					setUserInState({ ...userToSave, ...userFromDatabase });
 				else logoutUser();
-			}
+			} else logoutUser();
 		});
 	}, []);
 
