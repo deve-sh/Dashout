@@ -7,6 +7,8 @@ CREATE TABLE "users" (
     "photo_url" varchar(255) DEFAULT NULL,
     "provider_info" text,
     "disabled" boolean DEFAULT 0,
+    "n_transactions" integer DEFAULT 0,
+    "n_merchants" integer DEFAULT 0,
     "created_at" timestamp DEFAULT CURRENT_TIMESTAMP(),
     "updated_at" timestamp DEFAULT CURRENT_TIMESTAMP()
 );
@@ -25,5 +27,6 @@ CREATE TABLE "merchants" (
         "client_id" varchar(255) NOT NULL UNIQUE,
         "client_secret" varchar(255) NOT NULL UNIQUE,
         "created_at" timestamp DEFAULT CURRENT_TIMESTAMP(),
-        "updated_at" timestamp DEFAULT CURRENT_TIMESTAMP()
+        "updated_at" timestamp DEFAULT CURRENT_TIMESTAMP(),
+        "n_transactions" integer DEFAULT 0
 );
