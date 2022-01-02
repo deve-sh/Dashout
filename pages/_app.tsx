@@ -18,6 +18,11 @@ const AppWrapper = ({ Component, pageProps }) => {
 		onClose: closeLoginModal,
 	} = useDisclosure();
 
+	const logoutUser = () => {
+		setUserInState(null);
+		return auth.signOut();
+	};
+
 	useEffect(() => {
 		auth.onAuthStateChanged(async (user) => {
 			if (user) {
@@ -38,7 +43,7 @@ const AppWrapper = ({ Component, pageProps }) => {
 					uid,
 					providerInfo: JSON.parse(JSON.stringify(providerData)),
 				};
-				request({
+				const { user: userFromDatabase } = await request({
 					endpoint: "/api/setupUser",
 					data: { user: userToSave },
 					requestType: "post",
@@ -48,7 +53,9 @@ const AppWrapper = ({ Component, pageProps }) => {
 						},
 					},
 				});
-				setUserInState(userToSave);
+				if (userToSave && userFromDatabase)
+					setUserInState({ ...userToSave, ...userFromDatabase });
+				else logoutUser();
 			}
 		});
 	}, []);
@@ -59,7 +66,11 @@ const AppWrapper = ({ Component, pageProps }) => {
 			closeLoginModal={closeLoginModal}
 			showLoginModal={showLoginModal}
 		>
-			<Component {...pageProps} openLoginModal={openLoginModal} />
+			<Component
+				{...pageProps}
+				openLoginModal={openLoginModal}
+				logoutUser={logoutUser}
+			/>
 		</AppLayout>
 	);
 };
