@@ -64,7 +64,7 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 				<Left>
 					<Link href="/">
 						<a>
-							<Logo src="/logo.png" alt="Dashout" />
+							<Logo src="/logo-64.png" alt="Dashout" />
 						</a>
 					</Link>
 				</Left>
