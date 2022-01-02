@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { MdEmail, MdPhone } from "react-icons/md";
 
+import setupProtectedRoute from "../../helpers/setupProtectedRoute";
 import ContentWrapper from "../../components/Layout/ContentWrapper";
 
 import useStore from "../../store/useStore";
@@ -71,5 +72,7 @@ const UserProfile = () => {
 		</>
 	);
 };
+
+UserProfile.getInitialProps = setupProtectedRoute();
 
 export default UserProfile;
