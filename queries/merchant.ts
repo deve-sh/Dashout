@@ -11,6 +11,7 @@ export const CREATE_MERCHANT = `
         id,
         email,
         name,
+        user,
         phone_number,
         description,
         photo_url,
@@ -18,6 +19,6 @@ export const CREATE_MERCHANT = `
         client_secret,
         n_transactions
     ) VALUES(
-        ?, ?, ?, ?, ?, ?, ?, ?, ?
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
     );
 `;
