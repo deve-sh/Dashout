@@ -1,6 +1,6 @@
 import admin from "../firebase/admin";
 
-const verifyIDToken = async (token) => {
+const verifyIDToken = async (token: string) => {
 	try {
 		const decodedToken = await admin.auth().verifyIdToken(token);
 		return decodedToken;
