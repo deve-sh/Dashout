@@ -28,7 +28,8 @@ export default async function createOrder(
 			[decodedToken.uid]
 		);
 
-		if (fetchingError) throw fetchingError;
+		if (fetchingError)
+			throw new Error("Could not get merchants, please try again later.");
 
 		return res.status(200).json({
 			message: "Fetched merchants successfully.",
