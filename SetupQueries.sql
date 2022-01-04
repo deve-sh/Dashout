@@ -16,7 +16,6 @@ CREATE TABLE "users" (
 CREATE TABLE "merchants" (
     "id" varchar(75) NOT NULL PRIMARY KEY,
     "email" varchar(255) NOT NULL,
-    "email_verified" boolean DEFAULT 0,
     "name" varchar(255),
     "uid" varchar(255) NOT NULL references users(uid) ON DELETE CASCADE ON UPDATE
     SET
