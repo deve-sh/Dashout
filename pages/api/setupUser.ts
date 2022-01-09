@@ -22,10 +22,10 @@ export default async function setupUser(
 			message,
 		});
 	try {
-		const { authentication } = req.headers;
-		if (!authentication) return error(403, "Unauthozied");
+		const { authorization } = req.headers;
+		if (!authorization) return error(403, "Unauthozied");
 
-		const decodedToken = await verifyIDToken(authentication);
+		const decodedToken = await verifyIDToken(authorization);
 		if (!decodedToken || !decodedToken.uid) return error(403, "Unauthorized");
 
 		const { user } = req.body as { user: User };

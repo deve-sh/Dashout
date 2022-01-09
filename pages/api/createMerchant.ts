@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import uuid from "uuid/dist/v4";
+import { v4 as uuid } from "uuid";
 
 import query from "../../db/query";
 import { CREATE_MERCHANT } from "../../queries/merchant";
@@ -31,6 +31,8 @@ export default async function createOrder(
 			description?: string;
 			photoURL?: string;
 		} = req.body;
+
+		console.log(name, phoneNumber, authorization);
 
 		const decodedToken = await verifyIDToken(authorization);
 
