@@ -52,7 +52,7 @@ const AppWrapper = ({ Component, pageProps }) => {
 					requestType: "post",
 					options: {
 						headers: {
-							authentication: accessToken,
+							authorization: accessToken,
 						},
 					},
 				});
