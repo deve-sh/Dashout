@@ -52,7 +52,7 @@ export default async function setupUser(
 
 		if (results.length) {
 			// User already exists
-			await query(UPDATE_USER, [
+			const { error: userUpdateError } = await query(UPDATE_USER, [
 				userForDatabase.uid,
 				userForDatabase.email,
 				userForDatabase.email_verified || false,
@@ -63,9 +63,10 @@ export default async function setupUser(
 				userForDatabase.provider_info || "{}",
 				userForDatabase.uid,
 			]);
+			if (userUpdateError) throw userUpdateError;
 		} else {
 			// Add user to database.
-			await query(CREATE_USER, [
+			const { error: userCreationError } = await query(CREATE_USER, [
 				userForDatabase.uid,
 				userForDatabase.email,
 				userForDatabase.email_verified || false,
@@ -75,6 +76,7 @@ export default async function setupUser(
 				userForDatabase.photo_url || "",
 				userForDatabase.disabled || false,
 			]);
+			if (userCreationError) throw userCreationError;
 		}
 
 		return res.status(200).json({
@@ -82,6 +84,7 @@ export default async function setupUser(
 			user: (await query(FETCH_USER_BY_UID, [user.uid])).results[0],
 		});
 	} catch (err) {
+		console.log(err);
 		return error(500, err.message);
 	}
 }
