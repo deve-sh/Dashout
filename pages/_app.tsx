@@ -8,6 +8,7 @@ import type User from "../types/user";
 import auth, { getToken } from "../firebase/authentication";
 
 import AppLayout from "../components/Layout";
+import { saveUserProfileToFirestore } from "../API/auth";
 
 const AppWrapper = ({ Component, pageProps }) => {
 	const setUserInState = useStore((store) => store.setUser);
@@ -39,9 +40,16 @@ const AppWrapper = ({ Component, pageProps }) => {
 					lastSignIn: user.metadata.lastSignInTime,
 				};
 				const accessToken = await getToken(false);
-				Cookie.set("accessToken", accessToken, { expires: 365 }); // Don't remove unless Firebase automatically signs the user out.
-				if (userToSave) setUserInState(userToSave);
-				else logoutUser();
+				saveUserProfileToFirestore(
+					user.uid,
+					userToSave,
+					(_, dataFromFirestore) => {
+						if (dataFromFirestore) {
+							Cookie.set("accessToken", accessToken, { expires: 365 });
+							setUserInState(dataFromFirestore);
+						} else logoutUser();
+					}
+				);
 			} else logoutUser();
 		});
 	}, []);
