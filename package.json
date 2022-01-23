@@ -1,5 +1,5 @@
 {
-	"name": "buynowpaylater",
+	"name": "dashout",
 	"private": true,
 	"scripts": {
 		"dev": "next dev -p 3004",
@@ -16,7 +16,6 @@
 		"firebase-admin": "^10.0.0",
 		"framer-motion": "^5.5.5",
 		"js-cookie": "^3.0.1",
-		"mysql": "^2.18.1",
 		"next": "12.0.7",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
