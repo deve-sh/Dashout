@@ -14,7 +14,7 @@ export const providers = {
 	githubProvider,
 };
 
-export const getToken = async () => {
-	if (auth.currentUser) return await auth.currentUser.getIdToken();
+export const getToken = async (refresh = false) => {
+	if (auth.currentUser) return await auth.currentUser.getIdToken(refresh);
 	return null;
 };
