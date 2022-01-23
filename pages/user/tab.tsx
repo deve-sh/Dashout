@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
-import styled from "@emotion/styled";
 
 import { Stat, StatLabel, StatNumber, StatGroup } from "@chakra-ui/react";
 
@@ -58,11 +57,15 @@ const UserTab = () => {
 					</Stat>
 					<Stat>
 						<StatLabel>Transaction Amount</StatLabel>
-						<StatNumber>₹{user.totalTransactionAmount || 0}</StatNumber>
+						<StatNumber>
+							₹{Number((user.totalTransactionAmount || 0) / 100).toFixed(2)}
+						</StatNumber>
 					</Stat>
 					<Stat>
 						<StatLabel>Amount Repaid</StatLabel>
-						<StatNumber>₹{user.totalAmountRepaid || 0}</StatNumber>
+						<StatNumber>
+							₹{Number((user.totalAmountRepaid || 0) / 100).toFixed(2)}
+						</StatNumber>
 					</Stat>
 				</StatGroup>
 			</ContentWrapper>
