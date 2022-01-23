@@ -1,4 +1,5 @@
 import db, { firestore } from "../firebase/firestore";
+import { v4 as uuid } from "uuid";
 
 export const getMerchantsForUser = async (
 	userId: string,
@@ -30,6 +31,8 @@ export const createMerchantForUser = async (
 			...merchantDetails,
 			createdAt: firestore.FieldValue.serverTimestamp(),
 			updatedAt: firestore.FieldValue.serverTimestamp(),
+			clientId: uuid(),
+			clientSecret: uuid(),
 			nMembers: 1,
 			members: [userId],
 			createdBy: userId,
