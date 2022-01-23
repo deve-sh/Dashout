@@ -9,6 +9,7 @@ import auth, { getToken } from "../firebase/authentication";
 
 import AppLayout from "../components/Layout";
 import { saveUserProfileToFirestore } from "../API/auth";
+import Head from "next/head";
 
 const AppWrapper = ({ Component, pageProps }) => {
 	const setUserInState = useStore((store) => store.setUser);
@@ -55,17 +56,22 @@ const AppWrapper = ({ Component, pageProps }) => {
 	}, []);
 
 	return (
-		<AppLayout
-			openLoginModal={openLoginModal}
-			closeLoginModal={closeLoginModal}
-			showLoginModal={showLoginModal}
-		>
-			<Component
-				{...pageProps}
+		<>
+			<Head>
+				<link rel="icon" href="/logo-32.png" />
+			</Head>
+			<AppLayout
 				openLoginModal={openLoginModal}
-				logoutUser={logoutUser}
-			/>
-		</AppLayout>
+				closeLoginModal={closeLoginModal}
+				showLoginModal={showLoginModal}
+			>
+				<Component
+					{...pageProps}
+					openLoginModal={openLoginModal}
+					logoutUser={logoutUser}
+				/>
+			</AppLayout>
+		</>
 	);
 };
 
