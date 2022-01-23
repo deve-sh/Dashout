@@ -35,6 +35,8 @@ const AppWrapper = ({ Component, pageProps }) => {
 					phoneNumber: user.phoneNumber,
 					uid: user.uid,
 					providerInfo: JSON.parse(JSON.stringify(user.providerData)),
+					createdAt: user.metadata.creationTime,
+					lastSignIn: user.metadata.lastSignInTime,
 				};
 				const accessToken = await getToken(false);
 				Cookie.set("accessToken", accessToken, { expires: 365 }); // Don't remove unless Firebase automatically signs the user out.

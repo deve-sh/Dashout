@@ -7,6 +7,9 @@ interface User {
 	phoneNumber?: string;
 	photoURL?: string;
 	disabled?: boolean;
+	nTransactions?: number;
+	createdAt?: string;
+	lastSignIn?: string;
 }
 
 export default User;
