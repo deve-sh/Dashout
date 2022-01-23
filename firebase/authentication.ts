@@ -13,3 +13,8 @@ export const providers = {
 	googleProvider,
 	githubProvider,
 };
+
+export const getToken = async () => {
+	if (auth.currentUser) return await auth.currentUser.getIdToken();
+	return null;
+};
