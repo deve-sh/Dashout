@@ -23,10 +23,12 @@ interface MerchantCreatorModalProps {
 	isOpen: boolean;
 	onClose: () => any;
 	onSubmit: (formData: MerchantFormSubmitData) => any;
+	isLoading?: boolean;
 }
 
 const MerchantCreatorModal = ({
 	isOpen = false,
+	isLoading = false,
 	onClose,
 	onSubmit,
 }: MerchantCreatorModalProps) => {
@@ -54,6 +56,7 @@ const MerchantCreatorModal = ({
 							placeholder="Merchant Name"
 							label="Merchant Name"
 							id="merchantName"
+							isLoading={isLoading}
 						/>
 						<br />
 						<FormControl
@@ -63,6 +66,7 @@ const MerchantCreatorModal = ({
 							label="Merchant Email"
 							id="merchantEmail"
 							type="email"
+							isLoading={isLoading}
 						/>
 						<br />
 						<FormControl
@@ -72,6 +76,7 @@ const MerchantCreatorModal = ({
 							label="Merchant Photo URL"
 							id="photoURL"
 							type="url"
+							isLoading={isLoading}
 						/>
 						<br />
 						<FormControl
@@ -81,6 +86,7 @@ const MerchantCreatorModal = ({
 							label="Redirect URL post purchase"
 							id="successRedirect"
 							type="url"
+							isLoading={isLoading}
 						/>
 						<br />
 						<FormControl
@@ -90,14 +96,21 @@ const MerchantCreatorModal = ({
 							label="Redirect URL post cancelling"
 							id="errorRedirect"
 							type="url"
+							isLoading={isLoading}
 						/>
 					</ModalBody>
 
 					<ModalFooter>
-						<Button variant="ghost" colorScheme="red" mr={3} onClick={onClose}>
+						<Button
+							isLoading={isLoading}
+							variant="ghost"
+							colorScheme="red"
+							mr={3}
+							onClick={onClose}
+						>
 							Cancel
 						</Button>
-						<Button colorScheme="blue" type="submit">
+						<Button isLoading={isLoading} colorScheme="blue" type="submit">
 							Secondary Action
 						</Button>
 					</ModalFooter>

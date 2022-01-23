@@ -14,6 +14,7 @@ interface FormControlProps {
 	label: string;
 	isRequired?: boolean;
 	isInvalid?: boolean;
+	isLoading?: boolean;
 	name: string;
 	placeholder?: string;
 	// For controlled form-control inputs
@@ -29,6 +30,7 @@ const FormControl = ({
 	helperText,
 	isRequired = false,
 	isInvalid = false,
+	isLoading = false,
 	onChange = undefined,
 	value = undefined,
 	name,
@@ -41,6 +43,7 @@ const FormControl = ({
 			placeholder={placeholder}
 			name={name}
 			onChange={onChange}
+			disabled={isLoading}
 			value={value}
 		/>
 		{helperText && <FormHelperText>{helperText}</FormHelperText>}
