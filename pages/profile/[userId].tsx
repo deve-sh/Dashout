@@ -14,7 +14,7 @@ import { MdEmail, MdPhone } from "react-icons/md";
 import setupProtectedRoute from "../../helpers/setupProtectedRoute";
 import ContentWrapper from "../../components/Layout/ContentWrapper";
 
-import useStore from "../../store/useStore";
+import useUser from "../../hooks/useUser";
 
 const ProfileContentWrapper = styled(ContentWrapper)`
 	padding: var(--standard-spacing);
@@ -23,7 +23,7 @@ const ProfileContentWrapper = styled(ContentWrapper)`
 `;
 
 const UserProfile = () => {
-	const user = useStore((state) => state.user);
+	const user = useUser();
 
 	return (
 		<>
@@ -32,16 +32,16 @@ const UserProfile = () => {
 			</Head>
 			<ProfileContentWrapper centerContent>
 				<Avatar
-					name={user?.display_name || user?.displayName || ""}
-					src={user?.photo_url || user?.photoURL}
+					name={user?.displayName || ""}
+					src={user?.photoURL}
 					size="2xl"
 					cursor="pointer"
 				/>
 				<Heading marginTop="1.5rem" display="flex" alignItems="center">
-					{user?.display_name || user?.displayName || "Unnamed"}
+					{user?.displayName || "Unnamed"}
 				</Heading>
 				<Stat marginTop="1.5rem">
-					<StatNumber>{user?.n_transactions || 0}</StatNumber>
+					<StatNumber>{user?.nTransactions || 0}</StatNumber>
 					<StatHelpText>Number Of Transactions</StatHelpText>
 				</Stat>
 				<Text
@@ -52,7 +52,7 @@ const UserProfile = () => {
 					color="gray"
 				>
 					<MdPhone size="1.25rem" />
-					&nbsp;{user?.phone_number || "-"}
+					&nbsp;{user?.phoneNumber || "-"}
 				</Text>
 				<Text
 					display="flex"
@@ -66,7 +66,7 @@ const UserProfile = () => {
 				</Text>
 
 				<Text marginTop="1.5rem" fontSize="sm" color="gray">
-					User Since {new Date(user?.created_at || new Date()).toDateString()}
+					User Since {new Date(user?.createdAt || new Date()).toDateString()}
 				</Text>
 			</ProfileContentWrapper>
 		</>
