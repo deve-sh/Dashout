@@ -103,7 +103,7 @@ const Header = ({ openLoginModal = () => null, logoutUser = () => null }) => {
 											</IconButton>
 										</a>
 									</Link>
-									<Link href="/user/profile">
+									<Link href={`/profile/${stateUser.uid}`}>
 										<a>
 											<IconButton
 												aria-label="Profile"
