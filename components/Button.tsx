@@ -2,7 +2,6 @@ import { Button as ChakraButton } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 
 const Button = styled(ChakraButton)`
-	border-radius: calc(5 * var(--standard-spacing));
 	padding: calc(
 		${({ $paddingMultiplier }) => $paddingMultiplier || "1.5"} *
 			var(--standard-spacing)
