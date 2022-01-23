@@ -8,6 +8,8 @@ interface User {
 	photoURL?: string;
 	disabled?: boolean;
 	nTransactions?: number;
+	totalTransactionAmount?: number;
+	totalAmountRepaid?: number;
 	createdAt?: string;
 	lastSignIn?: string;
 }
