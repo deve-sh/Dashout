@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  	function isSignedIn(){
+    	return request.auth != null && 
+      			request.auth.uid != null && 
+            request.auth.token != null &&
+            request.auth.token.firebase.sign_in_provider != "anonymous";
+    }
+    
+    function getUnchangedKeys(){
+    	return request.resource.data.diff(resource.data).unchangedKeys();
+    }
+    
+    match /user/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && 
+      	request.resource.data.uid == userId &&
+        request.auth.uid == userId;
+      allow update: if isSignedIn() && 
+      	userId == request.auth.uid && 
+        getUnchangedKeys().hasAll([
+        	"nTransactions", "totalTransactionAmount", "totalAmountRepaid", "disabled"
+        ])
+    }
+    
+    match /transactions/{transactionId} {
+    	allow read: if isSignedIn() && resource.data.user == request.auth.uid;
+      // User can't create or update transactions.
+    }
+    
+    match /merchants/{merchantId} {
+      allow read: if isSignedIn() && 
+      	resource.data.members.toSet().hasAll([request.auth.uid]) ||
+        resource.data.createdBy == request.auth.uid;
+      allow create: if isSignedIn() && 
+      	request.resource.data.members.toSet().hasAll([request.auth.uid]) &&
+        request.resource.data.createdBy == request.auth.uid;
+      allow update: if isSignedIn() && 
+      	(resource.data.members.toSet().hasAll([request.auth.uid]) ||
+          resource.data.createdBy == request.auth.uid) &&
+        getUnchangedKeys().hasAll(["clientId", "clientSecret"]);
+    }
+  }
+}
