@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useEffect } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 import Cookie from "js-cookie";
@@ -6,10 +7,9 @@ import useStore from "../store/useStore";
 
 import type User from "../types/user";
 import auth, { getToken } from "../firebase/authentication";
+import { saveUserProfileToFirestore } from "../API/auth";
 
 import AppLayout from "../components/Layout";
-import { saveUserProfileToFirestore } from "../API/auth";
-import Head from "next/head";
 
 const AppWrapper = ({ Component, pageProps }) => {
 	const setUserInState = useStore((store) => store.setUser);
