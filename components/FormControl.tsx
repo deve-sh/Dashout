@@ -15,6 +15,7 @@ interface FormControlProps {
 	isRequired?: boolean;
 	isInvalid?: boolean;
 	name: string;
+	placeholder?: string;
 	// For controlled form-control inputs
 	onChange?: (e: FormEvent<HTMLInputElement>) => any;
 	value?: string;
@@ -24,6 +25,7 @@ const FormControl = ({
 	id,
 	type = "text",
 	label,
+	placeholder = "",
 	helperText,
 	isRequired = false,
 	isInvalid = false,
@@ -33,7 +35,14 @@ const FormControl = ({
 }: FormControlProps) => (
 	<ChakraFormControl isRequired={isRequired} isInvalid={isInvalid}>
 		<FormLabel htmlFor={id}>{label}</FormLabel>
-		<Input id={id} type={type} name={name} onChange={onChange} value={value} />
+		<Input
+			id={id}
+			type={type}
+			placeholder={placeholder}
+			name={name}
+			onChange={onChange}
+			value={value}
+		/>
 		{helperText && <FormHelperText>{helperText}</FormHelperText>}
 	</ChakraFormControl>
 );
