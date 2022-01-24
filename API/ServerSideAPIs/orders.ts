@@ -19,6 +19,7 @@ export const createNewOrder = async (
 		});
 		batch.set(orderRef, {
 			...orderDetails,
+			status: "pending",
 			merchant,
 			updatedAt: fieldValues.serverTimestamp(),
 			createdAt: fieldValues.serverTimestamp(),
