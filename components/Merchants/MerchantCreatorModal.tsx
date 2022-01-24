@@ -15,6 +15,7 @@ interface MerchantFormSubmitData {
 	merchantName: string;
 	photoURL: string;
 	merchantEmail: string;
+	webhookURL: string;
 	successRedirect: string;
 	errorRedirect: string;
 }
@@ -75,6 +76,16 @@ const MerchantCreatorModal = ({
 							placeholder="Merchant Photo URL"
 							label="Merchant Photo URL"
 							id="photoURL"
+							type="url"
+							isLoading={isLoading}
+						/>
+						<br />
+						<FormControl
+							isRequired
+							name="webhookURL"
+							placeholder="URL To be hit after a successful transaction"
+							label="Webhook URL"
+							id="webhookURL"
 							type="url"
 							isLoading={isLoading}
 						/>
