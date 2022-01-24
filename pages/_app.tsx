@@ -64,6 +64,7 @@ const AppWrapper = ({ Component, pageProps }) => {
 				openLoginModal={openLoginModal}
 				closeLoginModal={closeLoginModal}
 				showLoginModal={showLoginModal}
+				logoutUser={logoutUser}
 			>
 				<Component
 					{...pageProps}
