@@ -30,7 +30,7 @@ export const createNewOrder = async (
 		return callback(null, (await orderRef.get()).data());
 	} catch (err) {
 		console.log(err);
-		return null;
+		return callback(err.message);
 	}
 };
 
@@ -42,5 +42,29 @@ export const getOrder = async (orderId: string) => {
 	} catch (err) {
 		console.log(err);
 		return null;
+	}
+};
+
+export const declineOrderForUser = async (
+	orderId: string,
+	userId: string,
+	callback: (errorMessage: string, createdOrder?: any) => any
+) => {
+	try {
+		const orderRef = admin.firestore().collection("orders").doc(orderId);
+
+		const fieldValues = admin.firestore.FieldValue;
+
+		await orderRef.update({
+			status: "declined",
+			declinedBy: userId,
+			declinedAt: fieldValues.serverTimestamp(),
+			updatedAt: fieldValues.serverTimestamp(),
+		});
+
+		return callback(null);
+	} catch (err) {
+		console.log(err);
+		return callback(err.message);
 	}
 };
