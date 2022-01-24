@@ -1,6 +1,7 @@
 import firebase from "./index";
 import mainFirebase from "firebase/app";
 import "firebase/auth";
+import Cookie from "js-cookie";
 
 const auth = firebase.auth();
 
@@ -15,6 +16,7 @@ export const providers = {
 };
 
 export const getToken = async (refresh = false) => {
-	if (auth.currentUser) return await auth.currentUser.getIdToken(refresh);
-	return null;
+	let cookie = Cookie.get("accessToken") || null;
+	if (!cookie) cookie = (await auth.currentUser?.getIdToken?.(refresh)) || null;
+	return cookie;
 };
