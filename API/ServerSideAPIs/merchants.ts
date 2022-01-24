@@ -18,3 +18,15 @@ export const getMerchant = async (clientId: string, clientSecret: string) => {
 		return null;
 	}
 };
+
+export const getMerchantById = async (merchantId: string) => {
+	try {
+		const merchant = (
+			await admin.firestore().collection("merchants").doc(merchantId).get()
+		).data();
+		return merchant || null;
+	} catch (err) {
+		console.log(err);
+		return null;
+	}
+};

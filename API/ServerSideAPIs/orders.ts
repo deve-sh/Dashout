@@ -32,3 +32,14 @@ export const createNewOrder = async (
 		return null;
 	}
 };
+
+export const getOrder = async (orderId: string) => {
+	try {
+		return (
+			await admin.firestore().collection("orders").doc(orderId).get()
+		).data();
+	} catch (err) {
+		console.log(err);
+		return null;
+	}
+};
