@@ -36,6 +36,7 @@ export default async function getOrderAndMerchant(
 			order,
 			merchant: {
 				merchantName: merchant.merchantName,
+				photoURL: merchant.photoURL,
 			},
 		});
 	} catch (err) {
