@@ -5,3 +5,8 @@ export interface OrderItem {
 	pricePerUnit: number;
 	quantity: number;
 }
+
+export interface OrderDetails extends OrderItem {
+	merchant: string;
+	status: string;
+}
