@@ -1,9 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { getMerchantById } from "../../API/ServerSideAPIs/merchants";
-import { getOrder } from "../../API/ServerSideAPIs/orders";
+import { getOrder, confirmOrderForUser } from "../../API/ServerSideAPIs/orders";
 
 import verifyIDToken from "../../helpers/verifyIDToken";
+
+import { OrderDetails } from "../../types/order";
 
 export default async function confirmOrder(
 	req: NextApiRequest,
@@ -25,7 +27,7 @@ export default async function confirmOrder(
 		if (!decodedToken || !decodedToken.uid)
 			return error(403, "Invalid credentials");
 
-		const order = await getOrder(orderId);
+		const order = (await getOrder(orderId)) as OrderDetails;
 		if (!order || !order.merchant) return error(404, "Order Not Found");
 
 		const merchant = await getMerchantById(order.merchant);
@@ -35,6 +37,13 @@ export default async function confirmOrder(
 			return error(400, "Order already fulfilled");
 
 		// Do transaction related processing here.
+		await confirmOrderForUser(orderId, order, decodedToken.uid, (err) => {
+			if (err) return error(500, "Order could not be declined");
+			return res.status(200).json({
+				message: "Declined Order Successfully",
+				redirectTo: merchant.errorRedirect,
+			});
+		});
 
 		return res.status(200).json({
 			message: "Confirmed Order Successfully",
