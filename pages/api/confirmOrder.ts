@@ -38,16 +38,11 @@ export default async function confirmOrder(
 
 		// Do transaction related processing here.
 		await confirmOrderForUser(orderId, order, decodedToken.uid, (err) => {
-			if (err) return error(500, "Order could not be declined");
+			if (err) return error(500, "Order could not be confirmed");
 			return res.status(200).json({
-				message: "Declined Order Successfully",
+				message: "Confirmed Order Successfully",
 				redirectTo: merchant.errorRedirect,
 			});
-		});
-
-		return res.status(200).json({
-			message: "Confirmed Order Successfully",
-			redirectTo: merchant.successRedirect,
 		});
 	} catch (err) {
 		return error(500, err.message);
