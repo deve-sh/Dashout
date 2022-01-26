@@ -21,6 +21,8 @@ export const createNewOrder = async (
 			...orderDetails,
 			status: "pending",
 			merchant,
+			currency: orderDetails?.currency || "INR",
+			desc: orderDetails?.desc || "",
 			updatedAt: fieldValues.serverTimestamp(),
 			createdAt: fieldValues.serverTimestamp(),
 		});
