@@ -37,6 +37,8 @@ export default async function getOrderAndMerchant(
 			merchant: {
 				merchantName: merchant.merchantName,
 				photoURL: merchant.photoURL,
+				errorRedirect: merchant.errorRedirect,
+				successRedirect: merchant.successRedirect,
 			},
 		});
 	} catch (err) {
