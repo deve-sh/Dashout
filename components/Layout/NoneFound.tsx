@@ -12,7 +12,7 @@ const NoneFound = ({ label = "", icon = undefined }) => (
 		justifyContent="center"
 		minHeight="40vh"
 	>
-		<Icon as={icon || <MdFilterList fontSize="2.5rem" color="gray" />} />
+		<Icon as={icon || (() => <MdFilterList fontSize="5rem" color="gray" />)} />
 		<Text marginTop="1.5rem" color="gray" fontSize="md">
 			{label}
 		</Text>
