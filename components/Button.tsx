@@ -3,10 +3,10 @@ import styled from "@emotion/styled";
 
 const Button = styled(ChakraButton)`
 	padding: calc(
-		${({ $paddingMultiplier }) => $paddingMultiplier || "1.5"} *
+		${({ $paddingMultiplier }) => $paddingMultiplier || "1.25"} *
 			var(--standard-spacing)
 	);
-	font-size: calc(1.125 * var(--standard-spacing));
+	font-size: var(--standard-spacing);
 	color: var(--white);
 	width: fit-content;
 	min-width: ${({ $noMinWidth }) =>
