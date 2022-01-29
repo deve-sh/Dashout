@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Head from "next/head";
 
 import {
@@ -7,17 +7,25 @@ import {
 	StatNumber,
 	StatGroup,
 	useDisclosure,
+	Heading,
+	HStack,
+	Box,
 } from "@chakra-ui/react";
 
-import setupProtectedRoute from "../helpers/setupProtectedRoute";
-import ContentWrapper from "../components/Layout/ContentWrapper";
-import MerchantCreatorModal from "../components/Merchants/MerchantCreatorModal";
+import setupProtectedRoute from "../../helpers/setupProtectedRoute";
+import ContentWrapper from "../../components/Layout/ContentWrapper";
+import MerchantCreatorModal from "../../components/Merchants/MerchantCreatorModal";
 
-import { getMerchantsForUser, createMerchantForUser } from "../API/merchants";
+import {
+	getMerchantsForUser,
+	createMerchantForUser,
+} from "../../API/merchants";
 
-import useUser from "../hooks/useUser";
-import User from "../types/user";
-import toasts from "../helpers/toasts";
+import useUser from "../../hooks/useUser";
+import User from "../../types/user";
+import toasts from "../../helpers/toasts";
+import NoneFound from "../../components/Layout/NoneFound";
+import Button from "../../components/Button";
 
 const UserMerchants = () => {
 	const user = useUser() || ({} as User);
@@ -97,6 +105,22 @@ const UserMerchants = () => {
 						</StatNumber>
 					</Stat>
 				</StatGroup>
+				<br />
+				<HStack>
+					<Box flex="1">
+						<Heading>MERCHANTS</Heading>
+					</Box>
+					<Box flex="1" justifyContent="flex-end" display="flex">
+						<Button onClick={openMerchantCreator}>Create Merchant</Button>
+					</Box>
+				</HStack>
+				{!userMerchants?.length ? (
+					<NoneFound label="No Merchants Found" />
+				) : (
+					userMerchants.map((merchant) => (
+						<Fragment key={merchant.id}></Fragment>
+					))
+				)}
 			</ContentWrapper>
 		</>
 	);
