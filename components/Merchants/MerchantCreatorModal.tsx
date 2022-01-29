@@ -122,7 +122,7 @@ const MerchantCreatorModal = ({
 							Cancel
 						</Button>
 						<Button isLoading={isLoading} colorScheme="blue" type="submit">
-							Secondary Action
+							Create Merchant
 						</Button>
 					</ModalFooter>
 				</ModalContent>
