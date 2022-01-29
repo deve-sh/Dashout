@@ -7,7 +7,7 @@ import {
 	StatNumber,
 	StatGroup,
 	useDisclosure,
-	Heading,
+	Text,
 	HStack,
 	Box,
 } from "@chakra-ui/react";
@@ -21,12 +21,13 @@ import {
 	getMerchantsForUser,
 	createMerchantForUser,
 } from "../../API/merchants";
-
 import useUser from "../../hooks/useUser";
 import User from "../../types/user";
 import toasts from "../../helpers/toasts";
+
 import NoneFound from "../../components/Layout/NoneFound";
 import Button from "../../components/Button";
+import MerchantCard from "../../components/Merchants/MerchantCard";
 
 const UserMerchants = () => {
 	const user = useUser() || ({} as User);
@@ -62,6 +63,7 @@ const UserMerchants = () => {
 			merchantData,
 			(err, createdMerchantInDatabase) => {
 				setIsMerchantCreating(false);
+				closeMerchantCreator();
 				if (err) return toasts.error(err);
 				setUserMerchants((merchants) => [
 					createdMerchantInDatabase,
@@ -100,7 +102,7 @@ const UserMerchants = () => {
 							₹
 							{Number(
 								userMerchants?.reduce?.((acc, merchant) => {
-									return acc + Number(merchant.amountProcessed);
+									return acc + Number(merchant?.amountProcessed || 0);
 								}, 0) / 100
 							).toFixed(2) || 0}
 						</StatNumber>
@@ -108,10 +110,12 @@ const UserMerchants = () => {
 				</StatGroup>
 				<br />
 				<HStack>
-					<Box flex="1">
-						<Heading>MERCHANTS</Heading>
+					<Box flex="0.7">
+						<Text fontWeight="bold" fontSize="2xl">
+							MERCHANTS
+						</Text>
 					</Box>
-					<Box flex="1" justifyContent="flex-end" display="flex">
+					<Box flex="1.3" justifyContent="flex-end" display="flex">
 						<Button onClick={openMerchantCreator} leftIcon={<FaPlus />}>
 							Create Merchant
 						</Button>
@@ -120,8 +124,8 @@ const UserMerchants = () => {
 				{!userMerchants?.length ? (
 					<NoneFound label="No Merchants Found" />
 				) : (
-					userMerchants.map((merchant) => (
-						<Fragment key={merchant.id}></Fragment>
+					userMerchants.map((merchant, index) => (
+						<MerchantCard key={merchant?.id || index} merchant={merchant} />
 					))
 				)}
 			</ContentWrapper>
