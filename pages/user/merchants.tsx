@@ -11,6 +11,7 @@ import {
 	HStack,
 	Box,
 } from "@chakra-ui/react";
+import { FaPlus } from "react-icons/fa";
 
 import setupProtectedRoute from "../../helpers/setupProtectedRoute";
 import ContentWrapper from "../../components/Layout/ContentWrapper";
@@ -111,7 +112,9 @@ const UserMerchants = () => {
 						<Heading>MERCHANTS</Heading>
 					</Box>
 					<Box flex="1" justifyContent="flex-end" display="flex">
-						<Button onClick={openMerchantCreator}>Create Merchant</Button>
+						<Button onClick={openMerchantCreator} leftIcon={<FaPlus />}>
+							Create Merchant
+						</Button>
 					</Box>
 				</HStack>
 				{!userMerchants?.length ? (
