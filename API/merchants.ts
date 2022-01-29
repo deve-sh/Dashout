@@ -43,6 +43,8 @@ export const createMerchantForUser = async (
 			merchants: firestore.FieldValue.arrayUnion(merchantRef.id),
 		});
 
+		await batch.commit();
+
 		return callback(null, (await merchantRef.get()).data());
 	} catch (err) {
 		console.log(err);
@@ -70,6 +72,8 @@ export const addUserToMerchant = async (
 			updatedAt: firestore.FieldValue.serverTimestamp(),
 			merchants: firestore.FieldValue.arrayUnion(merchantRef.id),
 		});
+
+		await batch.commit();
 
 		return callback(null, (await merchantRef.get()).data());
 	} catch (err) {
