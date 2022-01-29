@@ -1,8 +1,10 @@
 import Head from "next/head";
+import Link from "next/link";
 import { Box, Image, Stack, Text, Heading, HStack } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 
 import { MdOutlineArrowForward, MdOutlineShowChart } from "react-icons/md";
+import { FaUserCircle } from "react-icons/fa";
 
 import Button from "../components/Button";
 
@@ -48,7 +50,7 @@ const HomePageHero = styled(Stack)`
 	}
 `;
 
-const HomePage = ({ openLoginModal }) => (
+const HomePage = ({ openLoginModal, isLoggedIn, user }) => (
 	<>
 		<Head>
 			<title>Dashout - Buy Now Pay Later</title>
@@ -66,19 +68,44 @@ const HomePage = ({ openLoginModal }) => (
 					It truly is the next gen of shopping experience.
 				</Text>
 				<HStack spacing="15px" marginTop="25px">
-					<Button
-						rightIcon={<MdOutlineArrowForward size="1.25rem" />}
-						onClick={openLoginModal}
-					>
-						Check It Out
-					</Button>
-					<Button
-						$variant="hollow"
-						leftIcon={<MdOutlineShowChart size="1.25rem" />}
-						onClick={openLoginModal}
-					>
-						Become A Marchant
-					</Button>
+					{isLoggedIn ? (
+						<>
+							<Link href={`/user/tab`}>
+								<a>
+									<Button rightIcon={<MdOutlineArrowForward size="1.25rem" />}>
+										Dashboard
+									</Button>
+								</a>
+							</Link>
+							<Link href={`/profile/${user.uid}`}>
+								<a>
+									<Button
+										$variant="hollow"
+										leftIcon={<FaUserCircle size="1.25rem" />}
+										onClick={openLoginModal}
+									>
+										Profile
+									</Button>
+								</a>
+							</Link>
+						</>
+					) : (
+						<>
+							<Button
+								rightIcon={<MdOutlineArrowForward size="1.25rem" />}
+								onClick={openLoginModal}
+							>
+								Check It Out
+							</Button>
+							<Button
+								$variant="hollow"
+								leftIcon={<MdOutlineShowChart size="1.25rem" />}
+								onClick={openLoginModal}
+							>
+								Become A Marchant
+							</Button>
+						</>
+					)}
 				</HStack>
 			</Box>
 			<Box className="heroimage-container">
