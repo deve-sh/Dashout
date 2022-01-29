@@ -12,6 +12,7 @@ import { saveUserProfileToFirestore } from "../API/auth";
 import AppLayout from "../components/Layout";
 
 const AppWrapper = ({ Component, pageProps }) => {
+	const user = useStore((store) => store.user);
 	const setUserInState = useStore((store) => store.setUser);
 	const {
 		isOpen: showLoginModal,
@@ -68,6 +69,8 @@ const AppWrapper = ({ Component, pageProps }) => {
 			>
 				<Component
 					{...pageProps}
+					isLoggedIn={!!user}
+					user={user}
 					openLoginModal={openLoginModal}
 					logoutUser={logoutUser}
 				/>
