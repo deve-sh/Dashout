@@ -12,6 +12,7 @@ interface User {
 	totalAmountRepaid?: number;
 	createdAt?: string;
 	lastSignIn?: string;
+	canCreateMerchants?: boolean;
 }
 
 export default User;

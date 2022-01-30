@@ -1,10 +1,20 @@
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import Head from "next/head";
 
-import { Stat, StatLabel, StatNumber, StatGroup } from "@chakra-ui/react";
+import {
+	Stat,
+	StatLabel,
+	StatNumber,
+	StatGroup,
+	HStack,
+	Box,
+	Text,
+} from "@chakra-ui/react";
 
 import setupProtectedRoute from "../../helpers/setupProtectedRoute";
 import ContentWrapper from "../../components/Layout/ContentWrapper";
+import Button from "../../components/Button";
 
 import useUser from "../../hooks/useUser";
 import User from "../../types/user";
@@ -68,6 +78,23 @@ const UserTab = () => {
 						</StatNumber>
 					</Stat>
 				</StatGroup>
+				<br />
+				<HStack>
+					<Box flex="0.7">
+						<Text fontWeight="bold" fontSize="2xl">
+							TRANSACTIONS
+						</Text>
+					</Box>
+					{user?.canCreateMerchants && (
+						<Box flex="1.3" justifyContent="flex-end" display="flex">
+							<Link href="/user/merchants">
+								<a>
+									<Button>View Your Merchants</Button>
+								</a>
+							</Link>
+						</Box>
+					)}
+				</HStack>
 			</ContentWrapper>
 		</>
 	);
