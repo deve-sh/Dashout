@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { getMerchantById } from "../../API/ServerSideAPIs/merchants";
@@ -39,6 +40,13 @@ export default async function confirmOrder(
 		// Do transaction related processing here.
 		await confirmOrderForUser(orderId, order, decodedToken.uid, (err) => {
 			if (err) return error(500, "Order could not be confirmed");
+			// Notify the merchant
+			if (merchant.webhookURL)
+				axios.post(merchant.webhookURL, {
+					orderId,
+					status: "confirmed",
+					type: "order_confirmed",
+				});
 			return res.status(200).json({
 				message: "Confirmed Order Successfully",
 				redirectTo: merchant.errorRedirect,

@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { getMerchantById } from "../../API/ServerSideAPIs/merchants";
@@ -38,6 +39,12 @@ export default async function declineOrder(
 
 		await declineOrderForUser(orderId, decodedToken.uid, (err) => {
 			if (err) return error(500, "Order could not be declined");
+			if (merchant.webhookURL)
+				axios.post(merchant.webhookURL, {
+					orderId,
+					status: "declined",
+					type: "order_declined",
+				});
 			return res.status(200).json({
 				message: "Declined Order Successfully",
 				redirectTo: merchant.errorRedirect,
