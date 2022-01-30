@@ -106,8 +106,21 @@ const PayForOrder = ({ openLoginModal, orderId }) => {
 		});
 	};
 
+	const orderDescText =
+		orderDetails?.status === "fulfilled"
+			? "The order has been confirmed and marked on the user's tab."
+			: orderDetails?.status === "declined"
+			? "The order has been declined."
+			: "On Confirming, the transaction amount will be added to your next billing cycle.";
+
 	return (
-		<ContentWrapper centerContent>
+		<ContentWrapper
+			centerContent
+			justifyContent="center"
+			display="flex"
+			flexFlow="column"
+			minHeight="75vh"
+		>
 			<Head>
 				<title>Dashout - {orderDetails?.name || "Purchase Permission"}</title>
 			</Head>
@@ -135,34 +148,35 @@ const PayForOrder = ({ openLoginModal, orderId }) => {
 						</Text>
 					)}
 					<Text fontSize="sm" marginTop="var(--standard-spacing)">
-						On Confirming, the transaction amount will be added to your next
-						billing cycle.
+						{orderDescText}
 					</Text>
-					<HStack
-						spacing={5}
-						alignItems="center"
-						marginTop="var(--standard-spacing)"
-					>
-						<Button
-							colorScheme="blue"
-							variant="outline"
-							leftIcon={<ConfirmIcon size="1.375rem" />}
-							onClick={confirmOrder}
-							$paddingMultiplier="1.25"
+					{!["fulfilled", "declined"].includes(orderDetails?.status) && (
+						<HStack
+							spacing={5}
+							alignItems="center"
+							marginTop="var(--standard-spacing)"
 						>
-							Confirm Order
-						</Button>
-						<Button
-							colorScheme="red"
-							variant="outline"
-							leftIcon={<CancelIcon size="1.375rem" />}
-							onClick={declineOrder}
-							$variant="hollow"
-							$paddingMultiplier="1.125"
-						>
-							Decline
-						</Button>
-					</HStack>
+							<Button
+								colorScheme="blue"
+								variant="outline"
+								leftIcon={<ConfirmIcon size="1.375rem" />}
+								onClick={confirmOrder}
+								$paddingMultiplier="1.25"
+							>
+								Confirm Order
+							</Button>
+							<Button
+								colorScheme="red"
+								variant="outline"
+								leftIcon={<CancelIcon size="1.375rem" />}
+								onClick={declineOrder}
+								$variant="hollow"
+								$paddingMultiplier="1.125"
+							>
+								Decline
+							</Button>
+						</HStack>
+					)}
 				</>
 			) : (
 				<>
