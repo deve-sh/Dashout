@@ -23,7 +23,10 @@ service cloud.firestore {
       allow update: if isSignedIn() && 
       	userId == request.auth.uid && 
         !getChangedKeys().hasAny([
-        	"nTransactions", "totalTransactionAmount", "totalAmountRepaid", "disabled"
+        	"nTransactions", 
+          "totalTransactionAmount", 
+          "totalAmountRepaid", 
+          "disabled"
         ])
     }
     
@@ -33,6 +36,7 @@ service cloud.firestore {
     }
     
     match /merchants/{merchantId} {
+    	allow get: if isSignedIn();
       allow read: if isSignedIn() && 
       	(request.auth.uid in resource.data.members ||
         resource.data.createdBy == request.auth.uid);
