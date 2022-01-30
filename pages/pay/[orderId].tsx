@@ -14,7 +14,7 @@ import ContentWrapper from "../../components/Layout/ContentWrapper";
 
 import useUser from "../../hooks/useUser";
 
-import { getToken } from "../../firebase/authentication";
+import auth from "../../firebase/authentication";
 import request from "../../helpers/request";
 import toasts from "../../helpers/toasts";
 
@@ -37,7 +37,9 @@ const PayForOrder = ({ openLoginModal, orderId }) => {
 		request({
 			endpoint: "/api/getOrderDetails",
 			requestType: "post",
-			options: { headers: { authorization: await getToken() } },
+			options: {
+				headers: { authorization: await auth.currentUser.getIdToken() },
+			},
 			data: { orderId },
 			callback: (error, response) => {
 				if (error) {
@@ -51,17 +53,19 @@ const PayForOrder = ({ openLoginModal, orderId }) => {
 	};
 
 	useEffect(() => {
-		if (isLoggedIn) {
+		if (isLoggedIn && auth.currentUser) {
 			// Make a call for getting order and merchant details here.
 			getOrderInfo();
 		}
-	}, [isLoggedIn]);
+	}, [isLoggedIn, auth.currentUser]);
 
 	const confirmOrder = async () => {
 		request({
 			endpoint: "/api/confirmOrder",
 			requestType: "post",
-			options: { headers: { authorization: await getToken() } },
+			options: {
+				headers: { authorization: await auth.currentUser.getIdToken() },
+			},
 			data: { orderId },
 			callback: (error) => {
 				if (error) {
@@ -86,7 +90,9 @@ const PayForOrder = ({ openLoginModal, orderId }) => {
 		request({
 			endpoint: "/api/declineOrder",
 			requestType: "post",
-			options: { headers: { authorization: await getToken() } },
+			options: {
+				headers: { authorization: await auth.currentUser.getIdToken() },
+			},
 			data: { orderId },
 			callback: (error) => {
 				if (error) toasts.error(error);
@@ -109,6 +115,8 @@ const PayForOrder = ({ openLoginModal, orderId }) => {
 						size="2xl"
 						name={merchantDetails?.merchantName || "Merchant"}
 						src={merchantDetails?.photoURL}
+						bg="white"
+						border="0.01rem solid var(--bordergrey)"
 					/>
 					<Text fontSize="3xl" marginTop="var(--standard-spacing)">
 						{orderDetails?.name || "Purchase Order"}
