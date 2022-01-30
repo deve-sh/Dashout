@@ -34,7 +34,7 @@ export default async function settleUserBillAPI(
 
 		const userBillSettlementRef = admin
 			.firestore()
-			.collection("orders")
+			.collection("userbillsettlements")
 			.doc(razorpay_order_id);
 
 		const userBillSettlementData = (await userBillSettlementRef.get()).data();
