@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
+import Router from "next/router";
 import Head from "next/head";
 
 import {
@@ -51,7 +52,8 @@ const UserMerchants = () => {
 	};
 
 	useEffect(() => {
-		fetchUserMerchants();
+		if (!user?.canCreateMerchants) Router.push("/user/tab");
+		else fetchUserMerchants();
 	}, [user.uid]);
 
 	const createMerchant = (merchantData) => {
