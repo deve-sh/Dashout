@@ -36,6 +36,8 @@ export default async function confirmOrder(
 
 		if (order.status === "fulfilled")
 			return error(400, "Order already fulfilled");
+		if (order.status === "declined")
+			return error(400, "Order already declined");
 
 		// Do transaction related processing here.
 		await confirmOrderForUser(orderId, order, decodedToken.uid, (err) => {
