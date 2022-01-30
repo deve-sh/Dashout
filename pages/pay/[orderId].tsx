@@ -18,7 +18,7 @@ import { getToken } from "../../firebase/authentication";
 import request from "../../helpers/request";
 import toasts from "../../helpers/toasts";
 
-const PayForOrder = ({ openLoginModal, orderId, clientId }) => {
+const PayForOrder = ({ openLoginModal, orderId }) => {
 	const user = useUser();
 	const isLoggedIn = !!user;
 
@@ -26,8 +26,7 @@ const PayForOrder = ({ openLoginModal, orderId, clientId }) => {
 	const [merchantDetails, setMerchantDetails] = useState(null);
 
 	useEffect(() => {
-		if (!orderId || !clientId)
-			window.location.replace(document.referrer || "about:blank");
+		if (!orderId) window.location.replace(document.referrer || "about:blank");
 		if (!user?.uid) {
 			// Show the user the login modal.
 			openLoginModal();
