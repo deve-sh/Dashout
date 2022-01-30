@@ -108,7 +108,9 @@ const PayForOrder = ({ openLoginModal, orderId }) => {
 
 	return (
 		<ContentWrapper centerContent>
-			<Head>Dashout - Purchase Permission</Head>
+			<Head>
+				<title>Dashout - {orderDetails?.name || "Purchase Permission"}</title>
+			</Head>
 			{user?.uid ? (
 				<>
 					<Avatar
