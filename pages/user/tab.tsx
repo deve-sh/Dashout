@@ -101,9 +101,18 @@ const UserTab = () => {
 				</HStack>
 				<br />
 				{userTransactions.length ? (
-					userTransactions.map((transaction: Transaction) => (
-						<TransactionTile key={transaction.id} transaction={transaction} />
-					))
+					<>
+						{userTransactions.map((transaction: Transaction) => (
+							<TransactionTile key={transaction.id} transaction={transaction} />
+						))}
+						{hasMoreTransactions && (
+							<Box textAlign="center" mt={5}>
+								<Button $variant="hollow" onClick={fetchUserTransactions}>
+									Load More Transactions
+								</Button>
+							</Box>
+						)}
+					</>
 				) : (
 					<NoneFound
 						label="No Transactions To Show Yet"
