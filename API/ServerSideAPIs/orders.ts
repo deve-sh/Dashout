@@ -1,5 +1,6 @@
 import admin from "../../firebase/admin";
 import { OrderItem, OrderDetails } from "../../types/order";
+import { Transaction } from "../../types/transaction";
 
 export const createNewOrder = async (
 	merchant: string,
@@ -90,14 +91,7 @@ export const confirmOrderForUser = async (
 
 		const fieldValues = admin.firestore.FieldValue;
 
-		batch.update(orderRef, {
-			status: "fulfilled",
-			confirmedBy: userId,
-			confirmedAt: fieldValues.serverTimestamp(),
-			updatedAt: fieldValues.serverTimestamp(),
-			transaction: transactionRef.id,
-		});
-		batch.set(transactionRef, {
+		const transaction: Transaction = {
 			amount: Number(orderDetails.pricePerUnit * orderDetails.quantity),
 			order: orderId,
 			orderDetails, // Non-relational storage since order isn't going to be updated any time soon.
@@ -105,7 +99,16 @@ export const confirmOrderForUser = async (
 			user: userId,
 			updatedAt: fieldValues.serverTimestamp(),
 			createdAt: fieldValues.serverTimestamp(),
+		};
+
+		batch.update(orderRef, {
+			status: "fulfilled",
+			confirmedBy: userId,
+			confirmedAt: fieldValues.serverTimestamp(),
+			updatedAt: fieldValues.serverTimestamp(),
+			transaction: transactionRef.id,
 		});
+		batch.set(transactionRef, transaction);
 		batch.update(userRef, {
 			nTransactions: fieldValues.increment(1),
 			totalTransactionAmount: fieldValues.increment(
