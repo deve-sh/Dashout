@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Box, Stat, StatNumber, Tooltip, Text, VStack } from "@chakra-ui/react";
+import { Box, Stat, StatNumber, Text, VStack, Icon } from "@chakra-ui/react";
 import type Transaction from "../types/transaction";
 
 import { FaClock } from "react-icons/fa";
@@ -30,14 +30,20 @@ const TransactionTile = ({ transaction }: TransactionTileProps) => {
 							)}
 							<Box display="flex" alignItems="center" width="100%">
 								<Stat flex="5" minWidth="50%">
-									<StatNumber ml={5}>
+									<StatNumber>
 										₹ {Number((transaction.amount as any) / 100).toFixed(2)}
 									</StatNumber>
 								</Stat>
 							</Box>
 							<Box width="100%">
-								<Text fontSize="sm" color="gray">
-									<FaClock />{" "}
+								<Text
+									display="flex"
+									alignItems="center"
+									fontSize="sm"
+									color="gray"
+								>
+									<Icon as={() => <FaClock />} />
+									&nbsp;
 									{transaction?.createdAt?.toDate?.()?.toDateString?.()}{" "}
 									{transaction?.createdAt
 										?.toDate?.()
