@@ -10,20 +10,12 @@ import {
 	Button,
 } from "@chakra-ui/react";
 import FormControl from "../FormControl";
-
-interface MerchantFormSubmitData {
-	merchantName: string;
-	photoURL: string;
-	merchantEmail: string;
-	webhookURL: string;
-	successRedirect: string;
-	errorRedirect: string;
-}
+import Merchant from "../../types/merchant";
 
 interface MerchantCreatorModalProps {
 	isOpen: boolean;
 	onClose: () => any;
-	onSubmit: (formData: MerchantFormSubmitData) => any;
+	onSubmit: (formData: Merchant) => any;
 	isLoading?: boolean;
 }
 
@@ -39,7 +31,7 @@ const MerchantCreatorModal = ({
 		e.preventDefault();
 		const formData = Object.fromEntries(
 			new FormData(formRef.current)
-		) as unknown as MerchantFormSubmitData;
+		) as unknown as Merchant;
 		onSubmit(formData);
 	};
 
