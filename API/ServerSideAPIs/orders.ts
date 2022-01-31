@@ -1,6 +1,6 @@
 import admin from "../../firebase/admin";
-import { OrderItem, OrderDetails } from "../../types/order";
-import { Transaction } from "../../types/transaction";
+import type { OrderItem, OrderDetails } from "../../types/order";
+import type Transaction from "../../types/transaction";
 
 export const createNewOrder = async (
 	merchant: string,

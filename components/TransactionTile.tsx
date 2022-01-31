@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Box, Stat, StatNumber, Tooltip, Text, VStack } from "@chakra-ui/react";
-import type { Transaction } from "../types/transaction";
+import type Transaction from "../types/transaction";
 
 import { FaClock } from "react-icons/fa";
 

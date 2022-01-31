@@ -1,6 +1,7 @@
 import type { OrderDetails } from "./order";
 
-export interface Transaction {
+export default interface Transaction {
+	id?: string;
 	order: string;
 	orderDetails: OrderDetails;
 	merchant: string;
