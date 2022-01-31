@@ -11,13 +11,17 @@ import {
 	Box,
 	Text,
 } from "@chakra-ui/react";
+import { FaMoneyCheck } from "react-icons/fa";
 
 import setupProtectedRoute from "../../helpers/setupProtectedRoute";
 import ContentWrapper from "../../components/Layout/ContentWrapper";
 import Button from "../../components/Button";
+import TransactionTile from "../../components/TransactionTile";
+import NoneFound from "../../components/Layout/NoneFound";
 
 import useUser from "../../hooks/useUser";
 import User from "../../types/user";
+import Transaction from "../../types/transaction";
 import { getUserTransactions } from "../../API/transactions";
 import toasts from "../../helpers/toasts";
 
@@ -95,6 +99,17 @@ const UserTab = () => {
 						</Box>
 					)}
 				</HStack>
+				<br />
+				{userTransactions.length ? (
+					userTransactions.map((transaction: Transaction) => (
+						<TransactionTile key={transaction.id} transaction={transaction} />
+					))
+				) : (
+					<NoneFound
+						label="No Transactions To Show Yet"
+						icon={() => <FaMoneyCheck size="5rem" color="gray" />}
+					/>
+				)}
 			</ContentWrapper>
 		</>
 	);
