@@ -6,13 +6,12 @@ import styled from "@emotion/styled";
 import { Container, Text, Image } from "@chakra-ui/react";
 
 import db from "../../firebase/firestore";
-import { getToken } from "../../firebase/authentication";
 
 import useStore from "../../store/useStore";
 
 import setupProtectedRoute from "../../helpers/setupProtectedRoute";
 import toasts from "../../helpers/toasts";
-import request from "../../helpers/request";
+import { verifyRepayment } from "../../API/repayments";
 
 const WalletImage = styled(Image)`
 	max-width: 45vw;
@@ -46,32 +45,17 @@ const MakeWalletPayment = ({ error, orderInfo, transactionInfo }) => {
 			description: "Dashout Repayment Transaction",
 			image: "/logo-512.png",
 			order_id: orderInfo.id,
-			handler: async (response) => {
-				request({
-					endpoint: "/api/settleUserBill",
-					data: {
-						razorpay_payment_id: response.razorpay_payment_id,
-						razorpay_order_id: response.razorpay_order_id,
-						razorpay_signature: response.razorpay_signature,
-						status: "successful",
-					},
-					options: { headers: { authorization: await getToken() } },
-					requestType: "post",
-					callback: (error) => {
-						if (error) {
-							setTransactionState("failed");
-							return toasts.error(error);
-						}
-						setUser({
-							...user,
-							nSuccessfulTransactions: (user.nSuccessFulTransactions || 0) + 1,
-						});
-						setTransactionState("successful");
-						toasts.success("Repayment Successful");
-						router.push("/user/tab");
-					},
-				});
-			},
+			handler: (response) =>
+				verifyRepayment(response, (error) => {
+					if (error) {
+						setTransactionState("failed");
+						setErrorMessage(error);
+						return toasts.error(error);
+					}
+					setTransactionState("successful");
+					toasts.success("Repayment Successful");
+					router.push("/user/tab");
+				}),
 			prefill: {
 				name: user?.displayName || "",
 				email: user?.email || "",
