@@ -14,6 +14,7 @@ import useStore from "../../store/useStore";
 import setupProtectedRoute from "../../helpers/setupProtectedRoute";
 import toasts from "../../helpers/toasts";
 import { verifyRepayment } from "../../API/repayments";
+import Head from "next/head";
 
 const WalletImage = styled(Image)`
 	max-width: 45vw;
@@ -23,7 +24,6 @@ const MakeWalletPayment = ({ error, orderInfo, transactionInfo }) => {
 	const router = useRouter();
 
 	const user = useStore((state) => state.user);
-	const setUser = useStore((state) => state.setUser);
 
 	const [errorMessage, setErrorMessage] = useState(error);
 	const [transactionState, setTransactionState] = useState("not-started");
@@ -73,26 +73,37 @@ const MakeWalletPayment = ({ error, orderInfo, transactionInfo }) => {
 		setTransactionState("started");
 	}
 
-	return errorMessage ? (
-		<Error errorMessage={errorMessage} />
-	) : (
-		<Container maxW="container.xl" centerContent padding="2rem">
-			<WalletImage src="/wallet.svg" objectFit="cover" alt="Wallet" />
-			<br />
-			<Text fontSize="lg" colorScheme="gray">
-				{transactionState === "not-started"
-					? "Transaction starting"
-					: transactionState === "started"
-					? "Transaction In Progress"
-					: transactionState === "successful"
-					? "Transaction Successful. Your Balance will reflect in your wallet soon."
-					: "Transaction Failed"}
-			</Text>
-			<Script
-				src="https://checkout.razorpay.com/v1/checkout.js"
-				onLoad={initializePayment}
-			/>
-		</Container>
+	return (
+		<>
+			<Head>
+				<title>Dashout - Repay Bill</title>
+			</Head>
+			{errorMessage ? (
+				<Error errorMessage={errorMessage} />
+			) : (
+				<Container maxW="container.xl" centerContent padding="2rem">
+					<WalletImage
+						src="/images/wallet.svg"
+						objectFit="cover"
+						alt="Wallet"
+					/>
+					<br />
+					<Text fontSize="lg" colorScheme="gray">
+						{transactionState === "not-started"
+							? "Transaction starting"
+							: transactionState === "started"
+							? "Transaction In Progress"
+							: transactionState === "successful"
+							? "Transaction Successful. Your Balance will reflect in your wallet soon."
+							: "Transaction Failed"}
+					</Text>
+					<Script
+						src="https://checkout.razorpay.com/v1/checkout.js"
+						onLoad={initializePayment}
+					/>
+				</Container>
+			)}
+		</>
 	);
 };
 
@@ -102,7 +113,7 @@ MakeWalletPayment.getInitialProps = setupProtectedRoute(async (context) => {
 
 		if (!query.orderId) return { error: "Invalid Payment Session" };
 
-		// Fetch order info from firestore.
+		// Fetch settlement order info from firestore.
 		const orderInfo = (
 			await db.collection("userbillsettlements").doc(query.orderId).get()
 		).data();

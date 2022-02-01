@@ -52,7 +52,6 @@ export default async function createWalletAddMoneyTransaction(
 				...order,
 				user: decodedToken.uid,
 				amount,
-				wallet: decodedToken.uid,
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			});
