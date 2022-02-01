@@ -5,6 +5,8 @@ import Script from "next/script";
 import styled from "@emotion/styled";
 import { Container, Text, Image } from "@chakra-ui/react";
 
+import Error from "../../components/Layout/Error";
+
 import db from "../../firebase/firestore";
 
 import useStore from "../../store/useStore";
@@ -71,7 +73,9 @@ const MakeWalletPayment = ({ error, orderInfo, transactionInfo }) => {
 		setTransactionState("started");
 	}
 
-	return (
+	return errorMessage ? (
+		<Error errorMessage={errorMessage} />
+	) : (
 		<Container maxW="container.xl" centerContent padding="2rem">
 			<WalletImage src="/wallet.svg" objectFit="cover" alt="Wallet" />
 			<br />
