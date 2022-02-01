@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import User from "../../types/user";
+
 import razorpay from "../../helpers/razorpay";
 import admin from "../../firebase/admin";
 import verifyIDToken from "../../helpers/verifyIDToken";
@@ -26,12 +28,14 @@ export default async function createWalletAddMoneyTransaction(
 		const batch = admin.firestore().batch();
 		const userRef = admin.firestore().collection("users").doc(decodedToken.uid);
 
-		const userData = (await userRef.get()).data();
+		const userData = (await userRef.get()).data() as User;
 		if (!userData) return error(404, "User info not found.");
 
 		const amount =
-			Number(userData.totalTransactionAmount) -
-			Number(userData.totalAmountRepaid);
+			Number(userData.totalTransactionAmount || 0) -
+			Number(userData.totalAmountRepaid || 0);
+
+		if (!amount) return error(400, "No billable amount pending");
 
 		const order = await razorpay.orders.create({
 			amount,
