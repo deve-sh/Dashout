@@ -24,9 +24,12 @@ import User from "../../types/user";
 import Transaction from "../../types/transaction";
 import { getUserTransactions } from "../../API/transactions";
 import toasts from "../../helpers/toasts";
+import { createRepaymentTransaction } from "../../API/repayments";
 
 const UserTab = () => {
 	const user = useUser() || ({} as User);
+
+	const [isProcessing, setIsProcessing] = useState(false);
 
 	const [userTransactions, setUserTransactions] = useState([]);
 	const [hasMoreTransactions, setHasMoreTransactions] = useState(true);
@@ -52,6 +55,17 @@ const UserTab = () => {
 	useEffect(() => {
 		fetchUserTransactions();
 	}, [user.uid]);
+
+	const startRepayment = () => {
+		setIsProcessing(true);
+		createRepaymentTransaction((error, response) => {
+			setIsProcessing(false);
+			if (error) return toasts.error(error);
+			if (response?.order?.id)
+				return window.location.replace(`/repayment/${response.order.id}`);
+			else return toasts.error("Something went wrong, please try again later.");
+		});
+	};
 
 	return (
 		<>
@@ -99,6 +113,26 @@ const UserTab = () => {
 						</Box>
 					)}
 				</HStack>
+				<br />
+				{Number(user?.totalTransactionAmount || 0) -
+					Number(user.totalAmountRepaid || 0) >
+					0 && (
+					<Box>
+						<Button
+							$variant="hollow"
+							onClick={startRepayment}
+							isLoading={isProcessing}
+						>
+							Make Repayment (₹
+							{(
+								(Number(user?.totalTransactionAmount || 0) -
+									Number(user.totalAmountRepaid || 0)) /
+								100
+							).toFixed(2)}
+							)
+						</Button>
+					</Box>
+				)}
 				<br />
 				{userTransactions.length ? (
 					<>
