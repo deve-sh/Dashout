@@ -56,7 +56,7 @@ const MakeWalletPayment = ({ error, orderInfo, transactionInfo }) => {
 					}
 					setTransactionState("successful");
 					toasts.success("Repayment Successful");
-					router.push("/user/tab");
+					window.location.replace("/user/tab");
 				}),
 			prefill: {
 				name: user?.displayName || "",

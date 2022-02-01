@@ -77,6 +77,8 @@ export default async function settleUserBillAPI(
 			);
 			batch.update(userBillSettlementRef, {
 				...razorpayOrder,
+				status: "paid",
+				amount_due: 0,
 				payments: billSettlementPayments || [],
 				updatedAt: new Date(),
 			});
