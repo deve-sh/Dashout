@@ -48,5 +48,9 @@ service cloud.firestore {
           resource.data.createdBy == request.auth.uid) &&
         getUnchangedKeys().hasAll(["clientId", "clientSecret"]);
     }
+    
+    match /userbillsettlements/{settlementOrderId} {
+    	allow get: if true;
+    }
   }
 }
