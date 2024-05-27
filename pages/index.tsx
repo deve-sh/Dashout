@@ -102,7 +102,7 @@ const HomePage = ({ openLoginModal, isLoggedIn, user }) => (
 								leftIcon={<MdOutlineShowChart size="1.25rem" />}
 								onClick={openLoginModal}
 							>
-								Become A Marchant
+								Become A Merchant
 							</Button>
 						</>
 					)}
